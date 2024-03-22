@@ -93,4 +93,12 @@ mod tests {
     fn test_category_from_str_error() {
         assert!(Category::from_str("error").is_err());
     }
+
+    #[test]
+    fn test_category_error_display() {
+        assert_eq!(
+            format!("{}", super::CategoryError),
+            "Category must be one of: pokemon, item, berry, egg-group, ability, move, machine"
+        );
+    }
 }
