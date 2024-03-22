@@ -1,6 +1,6 @@
 pub mod api;
 
-use api::pokemon::get_data;
+use api::get_data;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
