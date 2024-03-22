@@ -1,3 +1,4 @@
+use convert_case::{Case, Casing};
 use std::{fmt, str::FromStr};
 
 #[derive(Debug, Clone)]
@@ -42,7 +43,54 @@ impl FromStr for Category {
 impl fmt::Display for Category {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut value = format!("{:?}", self);
-        value = value.to_lowercase();
+        value = value.as_str().from_case(Case::Pascal).to_case(Case::Kebab);
         write!(f, "{}", value)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Category;
+    use pretty_assertions::assert_eq;
+    use std::matches;
+    use std::str::FromStr;
+
+    #[test]
+    fn test_category_from_str() {
+        assert!(matches!(
+            Category::from_str("pokemon"),
+            Ok(Category::Pokemon)
+        ));
+        assert!(matches!(Category::from_str("item"), Ok(Category::Item)));
+        assert!(matches!(Category::from_str("berry"), Ok(Category::Berry)));
+        assert!(matches!(
+            Category::from_str("egg-group"),
+            Ok(Category::EggGroup)
+        ));
+        assert!(matches!(
+            Category::from_str("ability"),
+            Ok(Category::Ability)
+        ));
+        assert!(matches!(Category::from_str("move"), Ok(Category::Move)));
+        assert!(matches!(
+            Category::from_str("machine"),
+            Ok(Category::Machine)
+        ));
+    }
+
+    #[test]
+    fn test_category_display() {
+        assert_eq!(Category::Pokemon.to_string(), "pokemon");
+        assert_eq!(Category::Item.to_string(), "item");
+        assert_eq!(Category::Berry.to_string(), "berry");
+        assert_eq!(Category::EggGroup.to_string(), "egg-group");
+        assert_eq!(Category::Ability.to_string(), "ability");
+        assert_eq!(Category::Move.to_string(), "move");
+        assert_eq!(Category::Machine.to_string(), "machine");
+    }
+
+    #[test]
+    fn test_category_from_str_error() {
+        assert!(Category::from_str("error").is_err());
     }
 }
