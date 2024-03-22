@@ -95,10 +95,35 @@ mod tests {
     }
 
     #[test]
+    fn test_category_debug() {
+        assert_eq!(format!("{:?}", Category::Pokemon), "Pokemon");
+        assert_eq!(format!("{:?}", Category::Item), "Item");
+        assert_eq!(format!("{:?}", Category::Berry), "Berry");
+        assert_eq!(format!("{:?}", Category::EggGroup), "EggGroup");
+        assert_eq!(format!("{:?}", Category::Ability), "Ability");
+        assert_eq!(format!("{:?}", Category::Move), "Move");
+        assert_eq!(format!("{:?}", Category::Machine), "Machine");
+    }
+
+    #[test]
     fn test_category_error_display() {
         assert_eq!(
             format!("{}", super::CategoryError),
             "Category must be one of: pokemon, item, berry, egg-group, ability, move, machine"
         );
+    }
+
+    #[test]
+    fn test_category_error_debug() {
+        assert_eq!(
+            format!("{:?}", super::CategoryError),
+            "CategoryError"
+        );
+    }
+
+    #[test]
+    fn test_category_error_clone() {
+        let error = super::CategoryError;
+        let _cloned_error = error.clone();
     }
 }
