@@ -16,13 +16,14 @@
 /// let name = "pikachu".to_string();
 /// let pokemon = get_data(category, name).await.unwrap();
 ///
-/// let category2 = "item".to_string();
+/// let item_category = "item".to_string();
 /// let id = "1".to_string();
-/// let item = get_data(item, id).await.unwrap();
+/// let item = get_data(item_category, id).await.unwrap();
 /// ```
 pub async fn get_data(category: String, key: String) -> Result<String, reqwest::Error> {
     let url = format!("https://pokeapi.co/api/v2/{}/{}", category, key);
-    let res = reqwest::get(&url).await?;
+    let res = reqwest::get(&url).await?.error_for_status()?;
     let body = res.text().await?;
+
     Ok(body)
 }

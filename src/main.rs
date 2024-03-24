@@ -25,6 +25,6 @@ async fn main() {
 
     match value {
         Ok(value) => println!("{}", value),
-        Err(e) => println!("Error: {}", e),
+        Err(e) => eprintln!("Error: {}", e),
     }
 }
